@@ -2,9 +2,13 @@ package dev.norman.dogdex.doglist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.norman.dogdex.api.ApiResponseStatus
+import dev.norman.dogdex.api.ApiResponseStatus.*
 import dev.norman.dogdex.databinding.ActivityDogListBinding
 import dev.norman.dogdex.dogdetail.DogDetailActivity
 import dev.norman.dogdex.dogdetail.DogDetailActivity.Companion.DOG_KEY
@@ -34,6 +38,25 @@ class DogListActivity : AppCompatActivity() {
 
         dogListViewModel.dogList.observe(this) { dogList ->
             adapter.submitList(dogList)
+        }
+
+        dogListViewModel.status.observe(this) { status ->
+            when(status) {
+                LOADING -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                ERROR -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Error al descargar datos", Toast.LENGTH_SHORT).show()
+                }
+                SUCCESS -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+                else -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Estatus desconocido", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }
