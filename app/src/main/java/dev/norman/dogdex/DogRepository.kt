@@ -3,26 +3,15 @@ package dev.norman.dogdex
 import dev.norman.dogdex.api.ApiResponseStatus
 import dev.norman.dogdex.api.DogsApi.retrofitService
 import dev.norman.dogdex.api.dto.DogDTOMapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
+import dev.norman.dogdex.api.makeNetworkCall
 
 class DogRepository {
 
-    suspend fun downloadDogs(): ApiResponseStatus<List<Dog>> {
-        return withContext(Dispatchers.IO) {
+    suspend fun downloadDogs(): ApiResponseStatus<List<Dog>> = makeNetworkCall {
+        val dogListApiResponse = retrofitService.getAllDogs()
+        val dogDtoList = dogListApiResponse.data.dogs
+        val dogDtoMapper = DogDTOMapper()
 
-            try {
-                val dogListApiResponse = retrofitService.getAllDogs()
-                val dogDtoList = dogListApiResponse.data.dogs
-                val dogDtoMapper = DogDTOMapper()
-
-                ApiResponseStatus.Success(dogDtoMapper.fromDogDTOListToDogDomainList(dogDtoList))
-            } catch (e: UnknownHostException) {
-                ApiResponseStatus.Error(R.string.unknown_host_exception_error)
-            } catch (e: Exception) {
-                ApiResponseStatus.Error(R.string.unknown_error)
-            }
-        }
+        dogDtoMapper.fromDogDTOListToDogDomainList(dogDtoList)
     }
 }
