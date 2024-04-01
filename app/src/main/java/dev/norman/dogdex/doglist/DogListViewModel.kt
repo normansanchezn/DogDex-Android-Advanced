@@ -28,13 +28,15 @@ class DogListViewModel: ViewModel() {
 
     private fun downloadDogs() {
         viewModelScope.launch {
-            _status.value = ApiResponseStatus.LOADING
-            try {
-                _status.value = ApiResponseStatus.SUCCESS
-                _dogList.value = dogRepository.downloadDogs()
-            } catch (e:Exception) {
-                _status.value = ApiResponseStatus.ERROR
-            }
+            _status.value = ApiResponseStatus.Loading
+            handleResponseStatus(dogRepository.downloadDogs())
         }
+    }
+
+    private fun handleResponseStatus(apiResponseStatus: ApiResponseStatus) {
+        if (apiResponseStatus is ApiResponseStatus.Success) {
+            _dogList.value = apiResponseStatus.dogList
+        }
+        _status.value = apiResponseStatus
     }
 }

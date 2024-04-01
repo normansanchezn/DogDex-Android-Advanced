@@ -7,8 +7,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.norman.dogdex.api.ApiResponseStatus
-import dev.norman.dogdex.api.ApiResponseStatus.*
+import dev.norman.dogdex.api.ApiResponseStatus.Error
+import dev.norman.dogdex.api.ApiResponseStatus.Loading
+import dev.norman.dogdex.api.ApiResponseStatus.Success
 import dev.norman.dogdex.databinding.ActivityDogListBinding
 import dev.norman.dogdex.dogdetail.DogDetailActivity
 import dev.norman.dogdex.dogdetail.DogDetailActivity.Companion.DOG_KEY
@@ -42,14 +43,14 @@ class DogListActivity : AppCompatActivity() {
 
         dogListViewModel.status.observe(this) { status ->
             when(status) {
-                LOADING -> {
+                Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
-                ERROR -> {
+                is Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Error al descargar datos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, status.messageId, Toast.LENGTH_SHORT).show()
                 }
-                SUCCESS -> {
+                is Success -> {
                     binding.progressBar.visibility = View.GONE
                 }
                 else -> {
