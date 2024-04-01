@@ -43,7 +43,7 @@ class DogListActivity : AppCompatActivity() {
 
         dogListViewModel.status.observe(this) { status ->
             when(status) {
-                Loading -> {
+                is Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Error -> {
