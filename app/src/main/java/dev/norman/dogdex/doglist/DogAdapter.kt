@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import dev.norman.dogdex.Dog
+import dev.norman.dogdex.model.Dog
 import dev.norman.dogdex.databinding.DogListItemBinding
 
 class DogAdapter: ListAdapter<Dog, DogAdapter.DogViewHolder>(DiffCallback) {

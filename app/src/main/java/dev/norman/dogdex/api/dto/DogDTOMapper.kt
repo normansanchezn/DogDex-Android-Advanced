@@ -1,6 +1,6 @@
 package dev.norman.dogdex.api.dto
 
-import dev.norman.dogdex.Dog
+import dev.norman.dogdex.model.Dog
 
 class DogDTOMapper {
     private fun fromDogDTOtoDogDomain(dogDTO: DogDTO): Dog {

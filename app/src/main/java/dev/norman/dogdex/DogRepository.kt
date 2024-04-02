@@ -4,6 +4,7 @@ import dev.norman.dogdex.api.ApiResponseStatus
 import dev.norman.dogdex.api.DogsApi.retrofitService
 import dev.norman.dogdex.api.dto.DogDTOMapper
 import dev.norman.dogdex.api.makeNetworkCall
+import dev.norman.dogdex.model.Dog
 
 class DogRepository {
 
