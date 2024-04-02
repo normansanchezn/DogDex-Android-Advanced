@@ -3,12 +3,9 @@ package dev.norman.dogdex.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import dev.norman.dogdex.MainActivity
 import dev.norman.dogdex.R
@@ -47,6 +44,10 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentActions,
 
     private fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    override fun onLoginFieldsValidated(email: String, password: String) {
+        viewModel.login(email, password)
     }
 
     private fun showErrorDialog(messageId: Int) {

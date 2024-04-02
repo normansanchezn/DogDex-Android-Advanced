@@ -2,6 +2,7 @@ package dev.norman.dogdex.auth
 
 import dev.norman.dogdex.api.ApiResponseStatus
 import dev.norman.dogdex.api.DogsApi
+import dev.norman.dogdex.api.dto.LoginDTO
 import dev.norman.dogdex.api.dto.SignUpDTO
 import dev.norman.dogdex.api.dto.UserDTOMapper
 import dev.norman.dogdex.api.makeNetworkCall
@@ -19,6 +20,19 @@ class AuthRepository {
         }
 
         val userDTO = signUpResponse.data.user
+        val userDTOMapper = UserDTOMapper()
+        userDTOMapper.fromUserDTOToUserDomain(userDTO)
+    }
+
+    suspend fun login(email: String, password: String): ApiResponseStatus<User> = makeNetworkCall {
+        val loginDTO = LoginDTO(email, password)
+        val loginResponse = DogsApi.retrofitService.login(loginDTO)
+
+        if (!loginResponse.isSuccess) {
+            throw Exception(loginResponse.message)
+        }
+
+        val userDTO = loginResponse.data.user
         val userDTOMapper = UserDTOMapper()
         userDTOMapper.fromUserDTOToUserDomain(userDTO)
     }

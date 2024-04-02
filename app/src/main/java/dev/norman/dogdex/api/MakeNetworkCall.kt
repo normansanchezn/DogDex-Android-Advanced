@@ -4,6 +4,7 @@ import dev.norman.dogdex.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
+import retrofit2.HttpException
 
 suspend fun <T> makeNetworkCall(
     call: suspend () -> T
