@@ -6,13 +6,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import dev.norman.dogdex.api.ApiResponseStatus.Error
 import dev.norman.dogdex.api.ApiResponseStatus.Loading
 import dev.norman.dogdex.api.ApiResponseStatus.Success
 import dev.norman.dogdex.databinding.ActivityDogListBinding
 import dev.norman.dogdex.dogdetail.DogDetailActivity
 import dev.norman.dogdex.dogdetail.DogDetailActivity.Companion.DOG_KEY
+
+const val GRID_SPAN_COUNT = 3
 
 class DogListActivity : AppCompatActivity() {
 
@@ -25,7 +27,7 @@ class DogListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val recycler = binding.dogRecycler
-        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.layoutManager = GridLayoutManager(this, GRID_SPAN_COUNT)
 
         val adapter = DogAdapter()
         adapter.setOnItemClickListener {
