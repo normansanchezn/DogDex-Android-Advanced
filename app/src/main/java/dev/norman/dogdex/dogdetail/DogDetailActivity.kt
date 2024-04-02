@@ -3,6 +3,7 @@ package dev.norman.dogdex.dogdetail
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
 import dev.norman.dogdex.Dog
 import dev.norman.dogdex.R
 import dev.norman.dogdex.databinding.ActivityDogDetailBinding
@@ -25,8 +26,15 @@ class DogDetailActivity : AppCompatActivity() {
             return
         }
 
-        binding.dogIndex.text = getString(R.string.dog_index_format, dog.index)
-        binding.lifeExpectancy.text = getString(R.string.dog_life_expectancy_format, dog.lifeExpectancy)
-        binding.dog = dog
+        with(binding) {
+            dogIndex.text = getString(R.string.dog_index_format, dog.index)
+            lifeExpectancy.text = getString(R.string.dog_life_expectancy_format, dog.lifeExpectancy)
+            this.dog = dog
+            dogImage.load(dog.imageUrl)
+
+            closeButton.setOnClickListener {
+                finish()
+            }
+        }
     }
 }
