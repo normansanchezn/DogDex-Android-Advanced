@@ -1,5 +1,6 @@
 package dev.norman.dogdex.auth
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -9,10 +10,25 @@ import android.view.ViewGroup
 import dev.norman.dogdex.R
 import dev.norman.dogdex.databinding.FragmentSignUpBinding
 
-
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
+
+    interface SignUpFragmentActions {
+        fun onSignUpFieldsValidated(email: String, password: String,
+                                    passwordConfirmation: String)
+    }
+
+    private lateinit var signUpFragmentActions: SignUpFragmentActions
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        signUpFragmentActions = try {
+            context as SignUpFragmentActions
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement LoginFragmentActions")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +74,7 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        // Perform sign up
+        signUpFragmentActions.onSignUpFieldsValidated(email, password, passwordConfirmation)
     }
 
     private fun isValidEmail(email: String?): Boolean {
